@@ -9,8 +9,11 @@ cd "$(dirname "$0")"
 STAGE="${1:-all}"
 
 VENV_DIR=".venv"
-if [ ! -x "$VENV_DIR/bin/python" ]; then
-  echo "=== Setting up virtualenv ($VENV_DIR) and installing requirements.txt ==="
+PYTHON="$VENV_DIR/bin/python"
+STAMP="$VENV_DIR/.requirements.installed"
+
+if [ ! -x "$PYTHON" ]; then
+  echo "=== Creating virtualenv ($VENV_DIR) ==="
   python3 -m venv "$VENV_DIR"
   "$VENV_DIR/bin/python" -m pip install --upgrade pip
   "$VENV_DIR/bin/python" -m pip install -r requirements.txt

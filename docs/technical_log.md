@@ -63,7 +63,7 @@ From a clean checkout, one command per stage:
 ```
 
 `./run.sh` defaults to `m0`. The script creates a local `.venv` and installs
-`requirements.txt`. M1 adds `torch`, `tqdm`, `imageio`. M1 trains on CPU by
+`requirements.txt`. M1 adds `torch`, `tqdm`, `pillow`. M1 trains on CPU by
 default (`device: auto` uses CUDA when available) in a couple of minutes; set
 `load_if_exists: true` in `configs/teacher.yaml` to reuse a saved checkpoint
 instead of retraining.

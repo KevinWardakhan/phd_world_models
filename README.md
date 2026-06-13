@@ -70,15 +70,17 @@ M5 is an **additional stretch experiment** I added, not a milestone from the bri
 
 ## Main result (vs true `pi_1`, n=2000, fixed eval noise)
 
-| Model | steps | modes | norm. entropy | off-support | energy dist | MMD |
-|-------|:-----:|:-----:|:-------------:|:-----------:|:-----------:|:---:|
-| `pi_1` vs `pi_1` (sanity floor) | - | 8 | 1.000 | 0.000 | 0.0014 | 0.0003 |
-| `pi_0` vs `pi_1` (baseline) | - | 8 | 0.951 | 0.535 | 0.0419 | 0.0298 |
-| M1 multi-step teacher | 200 | 8 | **0.999** | 0.124 | 0.0053 | 0.0014 |
-| M2 one-step teacher (naive) | 1 | 7 | 0.558 | 0.443 | 0.3106 | 0.2439 |
-| M3 DMD student | 1 | 8 | 0.998 | 0.158 | 0.0059 | 0.0022 |
-| M4 DMD2 student | 1 | 8 | 0.998 | 0.137 | 0.0088 | 0.0029 |
-| **M5 DMD2 student (stretch)** | **4** | **8** | 0.996 | **0.064** | **0.0060** | **0.0027** |
+
+| Model                           | steps | modes | norm. entropy | off-support | energy dist | MMD        |
+| ------------------------------- | ----- | ----- | ------------- | ----------- | ----------- | ---------- |
+| `pi_1` vs `pi_1` (sanity check) | -     | 8     | 1.000         | 0.000       | 0.0014      | 0.0003     |
+| `pi_0` vs `pi_1` (baseline)     | -     | 8     | 0.951         | 0.535       | 0.0419      | 0.0298     |
+| M1 multi-step teacher           | 200   | 8     | **0.999**     | 0.124       | 0.0053      | 0.0014     |
+| M2 one-step teacher (naive)     | 1     | 7     | 0.558         | 0.443       | 0.3106      | 0.2439     |
+| M3 DMD student                  | 1     | 8     | 0.998         | 0.158       | 0.0059      | 0.0022     |
+| M4 DMD2 student                 | 1     | 8     | 0.998         | 0.137       | 0.0088      | 0.0029     |
+| **M5 DMD2 student (stretch)**   | **4** | **8** | 0.996         | **0.064**   | **0.0060**  | **0.0027** |
+
 
 Evaluation is sample-based (not loss-based): recovered mode count and normalized
 mode entropy (mode dropping), off-support fraction (boundary sharpness), and two
@@ -87,22 +89,22 @@ two-sample distances (energy distance, MMD).
 ## Key findings
 
 - **Distillation is necessary.** The naive one-step teacher (M2) drops a mode and
-  collapses entropy/off-support/ED/MMD; only the iterative reverse process captures
-  the multimodal target.
+collapses entropy/off-support/ED/MMD; only the iterative reverse process captures
+the multimodal target.
 - **M3 DMD works in one step.** It recovers all 8 modes and matches the multi-step
-  teacher on ED/MMD (~1e-3), far beating M2.
+teacher on ED/MMD (~1e-3), far beating M2.
 - **M4 one-step DMD2 is approximately tied with M3 - reported honestly.** On this 2D
-  toy distribution matching already solves the problem, so the GAN is essentially
-  inert (the discriminator sits at chance accuracy ~0.5). No overclaim.
+toy distribution matching already solves the problem, so the GAN is essentially
+inert (the discriminator sits at chance accuracy ~0.5). No overclaim.
 - **The clear win is the M5 stretch (few-step DMD2).** A 4-step student cuts
-  off-support ~2.5x vs the M3 one-step student (`0.158 -> 0.064`), dropping below
-  even the multi-step teacher, while keeping all 8 modes. Robust across seeds and
-  sample sizes (off-support `0.058-0.066` at n=2000 two seeds / n=5000). Step count
-  is the dominant factor; TTUR helps, and the GAN finally contributes once there is
-  real headroom (see [outputs/m5/ablation_summary.md](outputs/m5/ablation_summary.md)).
+off-support ~2.5x vs the M3 one-step student (`0.158 -> 0.064`), dropping below
+even the multi-step teacher, while keeping all 8 modes. Robust across seeds and
+sample sizes (off-support `0.058-0.066` at n=2000 two seeds / n=5000). Step count
+is the dominant factor; TTUR helps, and the GAN finally contributes once there is
+real headroom (see [outputs/m5/ablation_summary.md](outputs/m5/ablation_summary.md)).
 - **Off-support is the discriminating metric here.** ED/MMD sit at their noise
-  floor for every trained student, so off-support (boundary sharpness) is what
-  separates one-step from few-step.
+floor for every trained student, so off-support (boundary sharpness) is what
+separates one-step from few-step.
 
 ## AI usage and traceability
 
@@ -111,8 +113,8 @@ This project was built with AI assistance, logged honestly:
 - **ChatGPT** (planning / prompt refinement) -> **Codex** (coding) for M0-M4.
 - **Cursor (Claude)** agent for the M5 few-step stretch.
 - Session-by-session log: [ai_logs/index.md](ai_logs/index.md); workflow notes in
-  [ai_logs/chatgpt_planning.md](ai_logs/chatgpt_planning.md); raw transcripts in
-  `ai_logs/transcripts/`.
+[ai_logs/chatgpt_planning.md](ai_logs/chatgpt_planning.md); raw transcripts in
+`ai_logs/transcripts/`.
 
 `resources/` records the exact context the agent had - the assignment brief, paper
 notes (DDPM, DMD, DMD2, Di[M]O), and a source index mapping each source to how it
@@ -123,6 +125,7 @@ imports from it.** See [resources/sources_index.md](resources/sources_index.md).
 
 - Detailed write-up: [docs/technical_log.md](docs/technical_log.md)
 - Per-stage tables: [outputs/m3/summary_metrics.md](outputs/m3/summary_metrics.md),
-  [outputs/m4/summary_metrics.md](outputs/m4/summary_metrics.md),
-  [outputs/m5/summary_metrics.md](outputs/m5/summary_metrics.md),
-  [outputs/m5/ablation_summary.md](outputs/m5/ablation_summary.md)
+[outputs/m4/summary_metrics.md](outputs/m4/summary_metrics.md),
+[outputs/m5/summary_metrics.md](outputs/m5/summary_metrics.md),
+[outputs/m5/ablation_summary.md](outputs/m5/ablation_summary.md)
+

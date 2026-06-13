@@ -3,3 +3,4 @@ matplotlib>=3.8
 pyyaml>=6.0
 tqdm
 torch
+pillow

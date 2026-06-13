@@ -1,8 +1,8 @@
 """Figures for M0, M1, M2, and M3."""
 
-import imageio.v2 as imageio
 import matplotlib
 import numpy as np
+from PIL import Image
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -306,5 +306,6 @@ def save_reverse_gif(trajectory, path, num_timesteps, n_frames=60, fps=15, lim=3
     frames = []
     for j in idxs:
         t = num_timesteps - j
-        frames.append(_scatter_frame(np.asarray(trajectory[j]), t, lim))
-    imageio.mimsave(path, frames, fps=fps)
+        frames.append(Image.fromarray(_scatter_frame(np.asarray(trajectory[j]), t, lim)))
+    frames[0].save(path, save_all=True, append_images=frames[1:],
+                   duration=round(1000.0 / fps), loop=0)
