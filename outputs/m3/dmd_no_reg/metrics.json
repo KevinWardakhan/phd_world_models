@@ -1,0 +1,14 @@
+{
+  "variant": {
+    "name": "dmd_no_reg",
+    "lambda_reg": 0.0,
+    "fake_updates_per_gen": 1
+  },
+  "vs_pi1": {
+    "recovered_mode_count": 8,
+    "normalized_mode_entropy": 0.9989053155514824,
+    "off_support_fraction": 0.18,
+    "energy_distance": 0.005535108424127966,
+    "mmd_rbf": 0.0024188502063527406
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "references": {
+    "pi1_vs_pi1_sanity": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9997218872549847,
+      "off_support_fraction": 0.0,
+      "energy_distance": 0.0013860773217753142,
+      "mmd_rbf": 0.00027884260411070727
+    },
+    "pi0_vs_pi1_baseline": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9505347817176594,
+      "off_support_fraction": 0.535,
+      "energy_distance": 0.04189992036096868,
+      "mmd_rbf": 0.02982827524427567
+    },
+    "teacher_multistep_ema_vs_pi1": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9989034485464501,
+      "off_support_fraction": 0.1245,
+      "energy_distance": 0.005266399164480351,
+      "mmd_rbf": 0.0014238662633218047
+    },
+    "teacher_onestep_ema_vs_pi1": {
+      "recovered_mode_count": 7,
+      "normalized_mode_entropy": 0.5578962683215551,
+      "off_support_fraction": 0.4425,
+      "energy_distance": 0.3105612528282853,
+      "mmd_rbf": 0.24390964444457663
+    }
+  },
+  "variants": {
+    "dmd_reg": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9986147424617621,
+      "off_support_fraction": 0.147,
+      "energy_distance": 0.007023353914426433,
+      "mmd_rbf": 0.0022475827046418706
+    },
+    "dmd_no_reg": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9989053155514824,
+      "off_support_fraction": 0.18,
+      "energy_distance": 0.005535108424127966,
+      "mmd_rbf": 0.0024188502063527406
+    },
+    "dmd_no_reg_ttur": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9980687900833496,
+      "off_support_fraction": 0.164,
+      "energy_distance": 0.008040533879881462,
+      "mmd_rbf": 0.002243722568184281
+    }
+  },
+  "best_variant": "dmd_no_reg",
+  "best_beats_m2_onestep": true
+}

@@ -1,0 +1,16 @@
+# M0 data configuration.
+# Toy data for M0.
+
+seed: 0
+n_samples: 1000
+
+# Source pi_0: isotropic 2D Gaussian (mean 0).
+pi0:
+  std: 1.0
+
+# Target pi_1: 8-mode checkerboard (4x4 grid, cells where col+row is even).
+pi1:
+  side: 1.0   # square side length
+  gap: 0.    # spacing between adjacent squares, set to 0 as in the picture in the brief
+
+output_dir: outputs/m0

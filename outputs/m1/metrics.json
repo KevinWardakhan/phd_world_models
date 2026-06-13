@@ -1,0 +1,96 @@
+{
+  "config": {
+    "seed": 0,
+    "device": "auto",
+    "data": {
+      "side": 1.0,
+      "gap": 0.0
+    },
+    "diffusion": {
+      "num_timesteps": 300,
+      "beta_start": 0.0001,
+      "beta_end": 0.02
+    },
+    "model": {
+      "hidden_dim": 128,
+      "n_layers": 4,
+      "time_embed_dim": 64
+    },
+    "train": {
+      "steps": 20000,
+      "batch_size": 512,
+      "lr": 0.002,
+      "log_every": 200
+    },
+    "ema": {
+      "enabled": true,
+      "decay": 0.999,
+      "start_step": 0
+    },
+    "eval": {
+      "n_samples": 2000
+    },
+    "gif": {
+      "n_points": 1500,
+      "n_frames": 60,
+      "fps": 15
+    },
+    "output_dir": "outputs/m1",
+    "checkpoint": "outputs/m1/teacher.pt",
+    "load_if_exists": false
+  },
+  "device": "cpu",
+  "n_eval": 2000,
+  "ema": {
+    "enabled": true,
+    "decay": 0.999,
+    "start_step": 0,
+    "used_for_eval": true
+  },
+  "comparisons": {
+    "pi1_vs_pi1_sanity": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9992469673168024,
+      "off_support_fraction": 0.0,
+      "energy_distance": 0.0011286004813091388,
+      "mmd_rbf": 0.0005455479334142144
+    },
+    "pi0_vs_pi1_baseline": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9476494765271041,
+      "off_support_fraction": 0.538,
+      "energy_distance": 0.044642222089794625,
+      "mmd_rbf": 0.03231501474000886
+    },
+    "teacher_raw_vs_pi1": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9987235054189902,
+      "off_support_fraction": 0.144,
+      "energy_distance": 0.002066378961605775,
+      "mmd_rbf": 0.0010505205709423482
+    },
+    "teacher_ema_vs_pi1": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9987850663215069,
+      "off_support_fraction": 0.1425,
+      "energy_distance": 0.0014827924172728935,
+      "mmd_rbf": 0.0008342573674049447
+    },
+    "teacher_vs_pi1": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9987850663215069,
+      "off_support_fraction": 0.1425,
+      "energy_distance": 0.0014827924172728935,
+      "mmd_rbf": 0.0008342573674049447
+    }
+  },
+  "acceptance": {
+    "recovers_8_modes": true,
+    "high_mode_entropy": true,
+    "beats_pi0_off_support": true,
+    "beats_pi0_energy": true,
+    "beats_pi0_mmd": true
+  },
+  "acceptance_passed": true,
+  "final_loss": 0.5702469472587108
+}

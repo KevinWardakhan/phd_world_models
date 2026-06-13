@@ -1,0 +1,43 @@
+{
+  "config": {
+    "seed": 0,
+    "n_samples": 1000,
+    "pi0": {
+      "std": 1.0
+    },
+    "pi1": {
+      "side": 1.0,
+      "gap": 0.0
+    },
+    "output_dir": "outputs/m0"
+  },
+  "n_samples": 1000,
+  "n_modes_expected": 8,
+  "pi1_mode_coverage": {
+    "recovered_mode_count": 8,
+    "normalized_mode_entropy": 0.9988739741537898,
+    "off_support_fraction": 0.0
+  },
+  "pi0_moments": {
+    "mean": [
+      -0.029940408238439256,
+      -0.02611076347327332
+    ],
+    "cov": [
+      [
+        1.0399340431548534,
+        -0.020160664610947118
+      ],
+      [
+        -0.020160664610947118,
+        0.9628514244059709
+      ]
+    ]
+  },
+  "two_sample_selftest_pi1_vs_pi1": {
+    "note": "Both batches are drawn following pi_1, so metrics should be near 0",
+    "n": 1000,
+    "energy_distance": 0.00394033523671844,
+    "mmd_rbf": 0.0014280041494649787
+  }
+}
