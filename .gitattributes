@@ -1,0 +1,3 @@
+# Keep shell scripts LF so they always run on Linux/WSL, even if checked out on Windows.
+*.sh text eol=lf
+run.sh text eol=lf
