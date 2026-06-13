@@ -1,7 +1,7 @@
 {
   "variant": {
     "name": "dmd_reg",
-    "lambda_reg": 0.25,
+    "lambda_reg": 0.05,
     "fake_updates_per_gen": 1
   }
 }

@@ -49,10 +49,14 @@ class MLPDenoiser(nn.Module):
         self.net = nn.Sequential(*layers)
         self.out = nn.Linear(hidden_dim, data_dim)
 
-    def forward(self, x, t):
+    def forward_features(self, x, t):
+        """Last hidden activations (B, hidden_dim), shared by the DMD2 critic head."""
         temb = self.time_mlp(self.time_embed(t))
         h = torch.cat([x, temb], dim=-1)
-        return self.out(self.net(h))
+        return self.net(h)
+
+    def forward(self, x, t):
+        return self.out(self.forward_features(x, t))
 
     @classmethod
     def from_config(cls, config):

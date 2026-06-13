@@ -17,7 +17,7 @@ from . import distributions as dist
 from . import metrics
 from . import plotting
 from .diffusion import load_teacher
-from .utils import ensure_dir, get_eval_noise, load_config, save_json
+from .utils import ensure_dir, get_eval_noise, load_config, save_json, set_reproducibility
 
 
 def resolve_device(name):
@@ -41,7 +41,7 @@ def main():
             f"Teacher checkpoint not found at {ckpt_path}. Run ./run.sh m1 first."
         )
 
-    torch.manual_seed(cfg["seed"])
+    set_reproducibility(cfg["seed"])
     rng = np.random.default_rng(cfg["seed"])
     out_dir = ensure_dir(cfg["output_dir"])
     side, gap = cfg["data"]["side"], cfg["data"]["gap"]

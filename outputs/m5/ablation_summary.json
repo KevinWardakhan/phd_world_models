@@ -1,0 +1,37 @@
+{
+  "1-step, no GAN (fu=3)": {
+    "recovered_mode_count": 8,
+    "normalized_mode_entropy": 0.9975583128600476,
+    "off_support_fraction": 0.1445,
+    "energy_distance": 0.004408956892686167,
+    "mmd_rbf": 0.0015194481806533044
+  },
+  "1-step, +GAN (fu=3)": {
+    "recovered_mode_count": 8,
+    "normalized_mode_entropy": 0.9986129330666873,
+    "off_support_fraction": 0.1485,
+    "energy_distance": 0.005761776959345877,
+    "mmd_rbf": 0.0019977411844244175
+  },
+  "4-step, no GAN, fu=1 (-TTUR)": {
+    "recovered_mode_count": 8,
+    "normalized_mode_entropy": 0.9949135706193241,
+    "off_support_fraction": 0.08,
+    "energy_distance": 0.014348289830168337,
+    "mmd_rbf": 0.008360426143813326
+  },
+  "4-step, no GAN (fu=3)": {
+    "recovered_mode_count": 8,
+    "normalized_mode_entropy": 0.9949519774715881,
+    "off_support_fraction": 0.071,
+    "energy_distance": 0.017083158746267646,
+    "mmd_rbf": 0.005914677159412407
+  },
+  "4-step, +GAN (fu=3) [main M5]": {
+    "recovered_mode_count": 8,
+    "normalized_mode_entropy": 0.9961922791769219,
+    "off_support_fraction": 0.064,
+    "energy_distance": 0.006028717282378526,
+    "mmd_rbf": 0.0026680778561668506
+  }
+}

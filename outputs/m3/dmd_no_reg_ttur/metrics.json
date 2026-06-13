@@ -2,13 +2,13 @@
   "variant": {
     "name": "dmd_no_reg_ttur",
     "lambda_reg": 0.0,
-    "fake_updates_per_gen": 5
+    "fake_updates_per_gen": 3
   },
   "vs_pi1": {
     "recovered_mode_count": 8,
-    "normalized_mode_entropy": 0.9980687900833496,
-    "off_support_fraction": 0.164,
-    "energy_distance": 0.008040533879881462,
-    "mmd_rbf": 0.002243722568184281
+    "normalized_mode_entropy": 0.9982775090608126,
+    "off_support_fraction": 0.1575,
+    "energy_distance": 0.0058907272044304015,
+    "mmd_rbf": 0.0021961795033108578
   }
 }

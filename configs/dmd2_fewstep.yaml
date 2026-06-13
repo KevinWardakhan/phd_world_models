@@ -1,0 +1,57 @@
+# M5 few-step DMD2 Stage B configuration (DMD2 sec 4.4 multi-step + sec 4.5 backward sim).
+seed: 0
+device: auto   # auto -> cuda if available, else cpu
+
+teacher_checkpoint: outputs/m1/teacher.pt
+
+# Student/mu_fake init. null -> EMA teacher weights (DMD2 inits the generator from
+# the pretrained diffusion model; this keeps the student competent at every
+# scheduled timestep, not just t=T-1). Set to an M3/M4 checkpoint path to instead
+# continue a one-step student.
+init_student_checkpoint: null
+init_fake_checkpoint: null
+
+# One-step references for the comparison figures/table (evaluated, not retrained).
+m3_student_checkpoint: outputs/m3/dmd_no_reg_ttur/student.pt
+m4_student_checkpoint: outputs/m4/dmd2_student.pt
+
+output_dir: outputs/m5
+eval_noise: outputs/eval_noise.pt   # shared fixed x_T (same as M2/M3/M4)
+
+# Diffusion schedule (must match the teacher).
+diffusion:
+  num_timesteps: 200
+  beta_start: 1.0e-4
+  beta_end: 0.02
+
+# Few-step generator: 4 steps on the DMD2 schedule (mirrors 999,749,499,249 for
+# T=1000). For T=200 these fractions map to timesteps [199, 149, 99, 49].
+num_gen_steps: 4
+schedule_fracs: [0.995, 0.745, 0.495, 0.245]
+
+t_min_frac: 0.02   # DMD matching timestep range (same as M3/M4)
+t_max_frac: 0.98
+
+# GAN noising timestep range (same band as M4).
+gan_t_min_frac: 0.0
+gan_t_max_frac: 0.7
+
+train_steps: 3000
+batch_size: 512
+gen_lr: 1.0e-4
+fake_lr: 1.0e-3
+disc_lr: 3.0e-4
+log_every: 100
+
+# DMD2: keep TTUR, drop regression, add GAN (same knobs as M4).
+fake_updates_per_gen: 3
+disc_updates_per_gen: 1
+lambda_gan: 0.05
+
+# +/-GAN, +/-TTUR, 1-step vs 4-step ablation (all via train_m5, matched setup).
+run_ablation: true
+ablation_train_steps: 3000
+
+eval:
+  n_samples: 2000
+  n_samples_large: 5000

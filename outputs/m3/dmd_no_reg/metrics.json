@@ -6,9 +6,9 @@
   },
   "vs_pi1": {
     "recovered_mode_count": 8,
-    "normalized_mode_entropy": 0.9989053155514824,
-    "off_support_fraction": 0.18,
-    "energy_distance": 0.005535108424127966,
-    "mmd_rbf": 0.0024188502063527406
+    "normalized_mode_entropy": 0.9981082212834829,
+    "off_support_fraction": 0.1685,
+    "energy_distance": 0.009082810583275869,
+    "mmd_rbf": 0.003086807086348342
   }
 }

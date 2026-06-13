@@ -16,7 +16,7 @@ from . import plotting
 from .diffusion import GaussianDiffusion, load_teacher
 from .ema import EMA
 from .models import MLPDenoiser
-from .utils import ensure_dir, load_config, save_json
+from .utils import ensure_dir, load_config, save_json, set_reproducibility
 
 
 def resolve_device(name):
@@ -69,7 +69,7 @@ def main():
     device = resolve_device(cfg["device"])
     print(f"[M1] device: {device}")
 
-    torch.manual_seed(cfg["seed"])
+    set_reproducibility(cfg["seed"])
     rng = np.random.default_rng(cfg["seed"])
     out_dir = ensure_dir(cfg["output_dir"])
     side, gap = cfg["data"]["side"], cfg["data"]["gap"]

@@ -30,28 +30,28 @@
     }
   },
   "variants": {
-    "dmd_reg": {
-      "recovered_mode_count": 8,
-      "normalized_mode_entropy": 0.9986147424617621,
-      "off_support_fraction": 0.147,
-      "energy_distance": 0.007023353914426433,
-      "mmd_rbf": 0.0022475827046418706
-    },
     "dmd_no_reg": {
       "recovered_mode_count": 8,
-      "normalized_mode_entropy": 0.9989053155514824,
-      "off_support_fraction": 0.18,
-      "energy_distance": 0.005535108424127966,
-      "mmd_rbf": 0.0024188502063527406
+      "normalized_mode_entropy": 0.9981082212834829,
+      "off_support_fraction": 0.1685,
+      "energy_distance": 0.009082810583275869,
+      "mmd_rbf": 0.003086807086348342
+    },
+    "dmd_reg": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9985577608844775,
+      "off_support_fraction": 0.135,
+      "energy_distance": 0.007962394928088923,
+      "mmd_rbf": 0.0023639929638876733
     },
     "dmd_no_reg_ttur": {
       "recovered_mode_count": 8,
-      "normalized_mode_entropy": 0.9980687900833496,
-      "off_support_fraction": 0.164,
-      "energy_distance": 0.008040533879881462,
-      "mmd_rbf": 0.002243722568184281
+      "normalized_mode_entropy": 0.9982775090608126,
+      "off_support_fraction": 0.1575,
+      "energy_distance": 0.0058907272044304015,
+      "mmd_rbf": 0.0021961795033108578
     }
   },
-  "best_variant": "dmd_no_reg",
+  "best_variant": "dmd_no_reg_ttur",
   "best_beats_m2_onestep": true
 }

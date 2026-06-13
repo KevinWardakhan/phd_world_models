@@ -18,12 +18,14 @@ t_max_frac: 0.98
 
 train_steps: 3000
 batch_size: 512
-gen_lr: 1.0e-4 # to tune ?
-fake_lr: 1.0e-3 # to tune ?
+gen_lr: 1.0e-4   # M3.1 sweep: best (unchanged)
+fake_lr: 1.0e-3  # M3.1 sweep: best (unchanged)
 log_every: 100
 
-lambda_reg: 0.25       # DMD default; overridden per variant, to tune ?
-reg_loss_type: mse     # mse | smooth_l1 | l1, to tune ?
+# M3.1 sweep picked smooth_l1 at lambda=0.05 as the best regression setting
+# (much better than the original mse/0.25).
+lambda_reg: 0.05
+reg_loss_type: smooth_l1   # mse | smooth_l1 | l1
 reg:
   n_pairs: 2000
   path: outputs/m3/reg_pairs.pt
@@ -33,13 +35,16 @@ eval:
   n_samples: 2000
 
 # Ablation: regression on/off and TTUR (fake updates per generator update).
+# Hyperparameters below were selected by the M3.1 sweep (see README "M3.1").
+# Headline: the naive no-reg/fu=1 config is the WEAKEST; both regression and
+# TTUR clearly help, and TTUR (fake_updates_per_gen=3, no reg) is the best.
 variants:
-  - name: dmd_reg
-    lambda_reg: 0.25
-    fake_updates_per_gen: 1
-  - name: dmd_no_reg
+  - name: dmd_no_reg            # naive distribution matching (now the weakest)
     lambda_reg: 0.0
     fake_updates_per_gen: 1
-  - name: dmd_no_reg_ttur
+  - name: dmd_reg              # regression stabilizer (smooth_l1, lambda=0.05)
+    lambda_reg: 0.05
+    fake_updates_per_gen: 1
+  - name: dmd_no_reg_ttur      # best: TTUR fake_updates=3, no regression
     lambda_reg: 0.0
-    fake_updates_per_gen: 5
+    fake_updates_per_gen: 3

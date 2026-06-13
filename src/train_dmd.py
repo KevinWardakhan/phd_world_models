@@ -18,7 +18,7 @@ from . import dmd
 from . import metrics
 from . import plotting
 from .diffusion import load_teacher
-from .utils import ensure_dir, get_eval_noise, load_config, save_json
+from .utils import ensure_dir, get_eval_noise, load_config, save_json, set_reproducibility
 
 
 def resolve_device(name):
@@ -87,7 +87,7 @@ def main():
     device = resolve_device(cfg["device"])
     print(f"[M3] device: {device}")
 
-    torch.manual_seed(cfg["seed"])
+    set_reproducibility(cfg["seed"])
     rng = np.random.default_rng(cfg["seed"])
     out_dir = ensure_dir(cfg["output_dir"])
     teacher_ckpt = cfg["teacher_checkpoint"]

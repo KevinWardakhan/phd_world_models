@@ -1,0 +1,18 @@
+{
+  "num_gen_steps": 4,
+  "schedule": [
+    199,
+    149,
+    99,
+    49
+  ],
+  "lambda_gan": 0.05,
+  "fake_updates_per_gen": 3,
+  "disc_updates_per_gen": 1,
+  "gan_t_min_frac": 0.0,
+  "gan_t_max_frac": 0.7,
+  "init": "teacher_ema",
+  "gen_lr": 0.0001,
+  "fake_lr": 0.001,
+  "disc_lr": 0.0003
+}

@@ -1,0 +1,32 @@
+{
+  "vs_pi1": {
+    "recovered_mode_count": 8,
+    "normalized_mode_entropy": 0.9961922791769219,
+    "off_support_fraction": 0.064,
+    "energy_distance": 0.006028717282378526,
+    "mmd_rbf": 0.0026680778561668506
+  },
+  "robustness": {
+    "n2000_seedA": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9972366976487702,
+      "off_support_fraction": 0.061,
+      "energy_distance": 0.01143189352458096,
+      "mmd_rbf": 0.0032737439313067496
+    },
+    "n2000_seedB": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9994833699844234,
+      "off_support_fraction": 0.066,
+      "energy_distance": 0.004017847934722152,
+      "mmd_rbf": 0.001266941462715665
+    },
+    "n5000_seedA": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9972426801851126,
+      "off_support_fraction": 0.058,
+      "energy_distance": 0.006595892135997872,
+      "mmd_rbf": 0.001919977371178716
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "vs_pi1": {
+    "recovered_mode_count": 8,
+    "normalized_mode_entropy": 0.9978676373572101,
+    "off_support_fraction": 0.1365,
+    "energy_distance": 0.008832139897991365,
+    "mmd_rbf": 0.0028935324322858502
+  }
+}

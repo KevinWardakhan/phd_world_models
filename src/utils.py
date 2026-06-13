@@ -2,6 +2,7 @@
 
 import json
 import os
+import random
 
 import numpy as np
 import torch
@@ -15,6 +16,20 @@ def load_config(path):
 
 def make_rng(seed):
     return np.random.default_rng(seed)
+
+
+def set_reproducibility(seed):
+    """Seed every RNG and force deterministic kernels so reruns match exactly.
+
+    Covers Python `random`, global NumPy, and torch (CPU + CUDA). Stages that
+    need an isolated stream still create their own `np.random.default_rng(seed)`.
+    """
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
 
 
 def ensure_dir(path):

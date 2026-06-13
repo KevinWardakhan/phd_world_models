@@ -122,6 +122,30 @@ def plot_mode_counts(fracs_by_label, path):
     plt.close(fig)
 
 
+def plot_metric_bars(values_by_label, path, ylabel, title, hline=None, hline_label=None):
+    """Single bar chart comparing one scalar metric across labelled models."""
+    labels = list(values_by_label)
+    values = [values_by_label[k] for k in labels]
+    colors = ["tab:orange", "tab:red", "tab:blue", "tab:purple", "tab:green",
+              "tab:brown", "tab:gray"][: len(labels)]
+    fig, ax = plt.subplots(figsize=(1.4 * len(labels) + 2, 4.5))
+    bars = ax.bar(labels, values, color=colors)
+    if hline is not None:
+        ax.axhline(hline, color="gray", ls="--", lw=1, alpha=0.8, label=hline_label)
+        if hline_label:
+            ax.legend()
+    for b, v in zip(bars, values):
+        ax.text(b.get_x() + b.get_width() / 2, v, f"{v:.3f}",
+                ha="center", va="bottom", fontsize=9)
+    ax.set_ylabel(ylabel)
+    ax.set_title(title)
+    ax.grid(True, axis="y", alpha=0.2)
+    plt.setp(ax.get_xticklabels(), rotation=20, ha="right")
+    fig.tight_layout()
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+
+
 def plot_scatter_row(panels, path, suptitle=None, lim=3.0):
     """Generic row of scatters from (points, title, color) tuples, shared limits."""
     n = len(panels)
@@ -155,6 +179,85 @@ def plot_training_curves(curves, path):
     ax.set_title("DMD training curves")
     ax.grid(True, alpha=0.2)
     ax.legend()
+    fig.tight_layout()
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+
+
+def plot_gan_diagnostics(diag, path):
+    """Three-panel GAN diagnostics: logits, discriminator accuracy, grad norms.
+
+    `diag` maps each key -> list of (step, value). Mixed scales are split across
+    panels so the discriminator's behaviour is readable at a glance.
+    """
+    def series(key):
+        return zip(*diag[key]) if diag.get(key) else ([], [])
+
+    fig, axes = plt.subplots(1, 3, figsize=(15, 4.2))
+
+    for key, label in (("mean_real_logit", "mean real logit"),
+                       ("mean_fake_logit", "mean fake logit")):
+        s, v = series(key)
+        axes[0].plot(s, v, label=label)
+    axes[0].axhline(0.0, color="gray", ls="--", lw=1, alpha=0.7)
+    axes[0].set_title("Discriminator logits")
+    axes[0].set_xlabel("generator step")
+    axes[0].legend()
+    axes[0].grid(True, alpha=0.2)
+
+    s, v = series("disc_total_acc")
+    axes[1].plot(s, v, color="tab:green", label="total acc")
+    axes[1].axhline(0.5, color="gray", ls="--", lw=1, alpha=0.7, label="chance")
+    axes[1].set_ylim(0.0, 1.0)
+    axes[1].set_title("Discriminator accuracy")
+    axes[1].set_xlabel("generator step")
+    axes[1].legend()
+    axes[1].grid(True, alpha=0.2)
+
+    for key, label in (("disc_grad_norm", "disc grad norm"),
+                       ("gen_gan_grad_norm", "gen GAN grad norm"),
+                       ("dmd_grad_norm", "DMD grad norm")):
+        s, v = series(key)
+        if len(list(s)):
+            s, v = series(key)
+            axes[2].plot(s, v, label=label)
+    axes[2].set_yscale("log")
+    axes[2].set_title("Gradient norms")
+    axes[2].set_xlabel("generator step")
+    axes[2].legend()
+    axes[2].grid(True, alpha=0.2)
+
+    fig.tight_layout()
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+
+
+def plot_gan_diagnostics(diag, path):
+    """Three-panel GAN diagnostics: logits, discriminator accuracy, grad norms.
+
+    `diag` maps a key -> list of (step, value). Keys are grouped by scale so the
+    very different magnitudes (logits, [0,1] accuracy, grad norms) stay readable.
+    """
+    panels = [
+        ("logits", ["mean_real_logit", "mean_fake_logit"]),
+        ("discriminator accuracy", ["disc_total_acc"]),
+        ("gradient norms", ["disc_grad_norm", "gen_gan_grad_norm", "dmd_grad_norm"]),
+    ]
+    fig, axes = plt.subplots(1, 3, figsize=(15, 4.2))
+    for ax, (title, keys) in zip(axes, panels):
+        for key in keys:
+            series = diag.get(key, [])
+            if not series:
+                continue
+            steps, values = zip(*series)
+            ax.plot(steps, values, label=key)
+        if title == "discriminator accuracy":
+            ax.axhline(0.5, color="gray", ls="--", lw=1, alpha=0.7, label="chance")
+        ax.set_xlabel("generator step")
+        ax.set_title(title)
+        ax.grid(True, alpha=0.2)
+        ax.legend(fontsize=8)
+    fig.suptitle("M4 GAN diagnostics")
     fig.tight_layout()
     fig.savefig(path, dpi=150)
     plt.close(fig)

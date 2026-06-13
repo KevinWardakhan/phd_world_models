@@ -2,6 +2,6 @@
   "variant": {
     "name": "dmd_no_reg_ttur",
     "lambda_reg": 0.0,
-    "fake_updates_per_gen": 5
+    "fake_updates_per_gen": 3
   }
 }

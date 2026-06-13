@@ -1,0 +1,117 @@
+{
+  "references": {
+    "pi1_vs_pi1_sanity": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9997218872549847,
+      "off_support_fraction": 0.0,
+      "energy_distance": 0.0013860773217753142,
+      "mmd_rbf": 0.00027884260411070727
+    },
+    "pi0_vs_pi1_baseline": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9505347817176594,
+      "off_support_fraction": 0.535,
+      "energy_distance": 0.04189992036096868,
+      "mmd_rbf": 0.02982827524427567
+    },
+    "teacher_multistep_ema_vs_pi1": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9989034485464501,
+      "off_support_fraction": 0.1245,
+      "energy_distance": 0.005266399164480351,
+      "mmd_rbf": 0.0014238662633218047
+    },
+    "teacher_onestep_ema_vs_pi1": {
+      "recovered_mode_count": 7,
+      "normalized_mode_entropy": 0.5578962683215551,
+      "off_support_fraction": 0.4425,
+      "energy_distance": 0.3105612528282853,
+      "mmd_rbf": 0.24390964444457663
+    },
+    "m3_best_onestep_vs_pi1": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9982775090608126,
+      "off_support_fraction": 0.1575,
+      "energy_distance": 0.0058907272044304015,
+      "mmd_rbf": 0.0021961795033108578
+    },
+    "m4_dmd2_onestep_vs_pi1": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9978676373572101,
+      "off_support_fraction": 0.1365,
+      "energy_distance": 0.008832139897991365,
+      "mmd_rbf": 0.0028935324322858502
+    }
+  },
+  "m5_fewstep_vs_pi1": {
+    "recovered_mode_count": 8,
+    "normalized_mode_entropy": 0.9961922791769219,
+    "off_support_fraction": 0.064,
+    "energy_distance": 0.006028717282378526,
+    "mmd_rbf": 0.0026680778561668506
+  },
+  "robustness": {
+    "n2000_seedA": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9972366976487702,
+      "off_support_fraction": 0.061,
+      "energy_distance": 0.01143189352458096,
+      "mmd_rbf": 0.0032737439313067496
+    },
+    "n2000_seedB": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9994833699844234,
+      "off_support_fraction": 0.066,
+      "energy_distance": 0.004017847934722152,
+      "mmd_rbf": 0.001266941462715665
+    },
+    "n5000_seedA": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9972426801851126,
+      "off_support_fraction": 0.058,
+      "energy_distance": 0.006595892135997872,
+      "mmd_rbf": 0.001919977371178716
+    }
+  },
+  "m5_beats_m3_off_support": true,
+  "m5_modes_preserved": true,
+  "m5_ed_not_worse_than_m3": true,
+  "clear_win": true,
+  "ablation": {
+    "1-step, no GAN (fu=3)": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9975583128600476,
+      "off_support_fraction": 0.1445,
+      "energy_distance": 0.004408956892686167,
+      "mmd_rbf": 0.0015194481806533044
+    },
+    "1-step, +GAN (fu=3)": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9986129330666873,
+      "off_support_fraction": 0.1485,
+      "energy_distance": 0.005761776959345877,
+      "mmd_rbf": 0.0019977411844244175
+    },
+    "4-step, no GAN, fu=1 (-TTUR)": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9949135706193241,
+      "off_support_fraction": 0.08,
+      "energy_distance": 0.014348289830168337,
+      "mmd_rbf": 0.008360426143813326
+    },
+    "4-step, no GAN (fu=3)": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9949519774715881,
+      "off_support_fraction": 0.071,
+      "energy_distance": 0.017083158746267646,
+      "mmd_rbf": 0.005914677159412407
+    },
+    "4-step, +GAN (fu=3) [main M5]": {
+      "recovered_mode_count": 8,
+      "normalized_mode_entropy": 0.9961922791769219,
+      "off_support_fraction": 0.064,
+      "energy_distance": 0.006028717282378526,
+      "mmd_rbf": 0.0026680778561668506
+    }
+  }
+}
