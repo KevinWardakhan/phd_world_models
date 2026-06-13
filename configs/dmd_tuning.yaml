@@ -1,0 +1,87 @@
+# TEMPORARY M3.1 hyperparameter tuning config (removable).
+# Used only by scripts/tune_m3_hparams.py. The clean M3 pipeline does NOT depend
+# on this file. Run:  python -m scripts.tune_m3_hparams --config configs/dmd_tuning.yaml
+seed: 0
+device: auto   # auto -> cuda if available, else cpu
+
+teacher_checkpoint: outputs/m1/teacher.pt
+output_dir: outputs/m3_tuning
+
+# Fixed eval noise: reuse the shared 2000 x_T for plots; a separate 10k for metrics.
+eval_noise_plot: outputs/eval_noise.pt
+eval_noise_metrics: outputs/m3_tuning/eval_noise_10k.pt
+
+eval:
+  n_samples_plot: 2000
+  n_samples_metrics: 10000   # ED/MMD are O(n^2); drop to 5000 if RAM-limited
+
+# Ranking: mode coverage is primary (hard gate), distributional quality is the
+# main score, off-support is a light tie-breaker. off_support_weight=0.05 (not
+# 0.25) so off-support does not dominate ED+MMD at M3 magnitudes; the 0.25
+# variant is also reported for transparency.
+ranking:
+  min_modes: 8
+  min_entropy: 0.98
+  off_support_weight: 0.05
+  off_support_weight_alt: 0.25
+  invalid_penalty: 1000.0
+
+# Diffusion schedule (must match the teacher).
+diffusion:
+  num_timesteps: 200
+  beta_start: 1.0e-4
+  beta_end: 0.02
+
+# Base hyperparameters = the original M3 best (dmd_no_reg). Each trial overrides
+# a subset of these. t_gen stays at T-1 (paper one-step setting).
+base:
+  t_gen: null          # null -> num_timesteps - 1
+  t_min_frac: 0.02
+  t_max_frac: 0.98
+  train_steps: 3000
+  batch_size: 512
+  gen_lr: 1.0e-4
+  fake_lr: 1.0e-3
+  log_every: 100
+  lambda_reg: 0.0
+  fake_updates_per_gen: 1
+  reg_loss_type: mse
+  reg:
+    n_pairs: 2000
+    path: outputs/m3_tuning/reg_pairs.pt
+    det_sampler: ddim_eta0
+
+# ~15 curated trials, one factor at a time around the base.
+trials:
+  - name: baseline_no_reg
+  - name: baseline_reg_mse
+    lambda_reg: 0.25
+  - name: baseline_ttur5
+    fake_updates_per_gen: 5
+  - name: reg_mse_l0p025
+    lambda_reg: 0.025
+  - name: reg_mse_l0p05
+    lambda_reg: 0.05
+  - name: reg_mse_l0p10
+    lambda_reg: 0.10
+  - name: reg_sl1_l0p05
+    lambda_reg: 0.05
+    reg_loss_type: smooth_l1
+  - name: reg_l1_l0p05
+    lambda_reg: 0.05
+    reg_loss_type: l1
+  - name: ttur2
+    fake_updates_per_gen: 2
+  - name: ttur3
+    fake_updates_per_gen: 3
+  - name: genlr_half
+    gen_lr: 5.0e-5
+  - name: genlr_double
+    gen_lr: 2.0e-4
+  - name: fakelr_half
+    fake_lr: 5.0e-4
+  - name: fakelr_double
+    fake_lr: 2.0e-3
+  - name: reg_mse_l0p05_ttur3
+    lambda_reg: 0.05
+    fake_updates_per_gen: 3

@@ -18,12 +18,12 @@ t_max_frac: 0.98
 
 train_steps: 3000
 batch_size: 512
-gen_lr: 1.0e-4
-fake_lr: 1.0e-3
+gen_lr: 1.0e-4 # to tune ?
+fake_lr: 1.0e-3 # to tune ?
 log_every: 100
 
-lambda_reg: 0.25       # DMD default; overridden per variant
-reg_loss_type: mse     # mse | smooth_l1 | l1
+lambda_reg: 0.25       # DMD default; overridden per variant, to tune ?
+reg_loss_type: mse     # mse | smooth_l1 | l1, to tune ?
 reg:
   n_pairs: 2000
   path: outputs/m3/reg_pairs.pt

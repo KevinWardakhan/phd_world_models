@@ -282,6 +282,71 @@ that the naive one-step baseline could not.
   continuous student rounds the square boundaries. This is sharpness, not mode
   dropping.
 
+### M3.1 temporary hyperparameter tuning
+
+> **Temporary and isolated.** M3 already succeeds (all variants recover 8/8 modes
+> and beat the M2 one-step teacher). This pass only looks for slightly better
+> hyperparameters before M4. All tuning lives in **removable** files that depend
+> on the M3 code but never the reverse, so the clean pipeline is untouched:
+> `configs/dmd_tuning.yaml`, `scripts/tune_m3_hparams.py` (+ `scripts/__init__.py`),
+> and `outputs/m3_tuning/`. Deleting those three (plus this subsection and the
+> ai_logs tuning entry) removes the tuning entirely.
+
+Run (not wired into `run.sh` on purpose):
+
+```bash
+python -m scripts.tune_m3_hparams --config configs/dmd_tuning.yaml
+```
+
+**Hyperparameters tested** (~15 curated trials, one factor at a time around the
+M3 best `dmd_no_reg`; not a Cartesian product):
+
+- `lambda_reg` in {0.0, 0.025, 0.05, 0.10, 0.25}.
+- `reg_loss_type` in {mse, smooth_l1, l1} (only when `lambda_reg > 0`).
+- `fake_updates_per_gen` (TTUR) in {1, 2, 3, 5}.
+- `gen_lr` in {5e-5, 1e-4, 2e-4}; `fake_lr` in {5e-4, 1e-3, 2e-3}.
+- one combo: `lambda_reg=0.05` (mse) + `fake_updates_per_gen=3`.
+- `t_gen` is kept at `T-1` (paper one-step setting); the DMD noise-time range is
+  left at the M3 baseline (0.02-0.98).
+
+**Evaluation.** Fixed seed and fixed eval noise for fair comparison. Plots use
+2000 samples; final ranking uses **10000** samples (separate fixed noise at
+`outputs/m3_tuning/eval_noise_10k.pt`; the shared 2000-sample `outputs/eval_noise.pt`
+is untouched). Each trial reuses the same noise stream so differences come from
+hyperparameters, not RNG.
+
+**Ranking metric (and why).** Mode coverage is primary, distributional quality is
+secondary, off-support is a tie-breaker. So:
+
+1. Hard gate: reject `recovered_mode_count < 8` or `normalized_mode_entropy < 0.98`
+   (large penalty, still reported).
+2. Among valid trials: `score = energy_distance + mmd_rbf + 0.05 * off_support_fraction`.
+
+The brief's suggested `0.25 * off_support` weight would actually make off-support
+**dominate** at M3 magnitudes (`0.25 * 0.18 = 0.045` vs `ED + MMD ~ 0.008`),
+inverting the stated priority. A `0.05` weight keeps off-support a genuine
+tie-breaker (~0.009), on par with but not dominating the distributional terms.
+Both the 0.05 and 0.25 composites are reported in `trials_summary.md`, alongside
+all raw metrics, since the composite is only a selection aid.
+
+**Outputs** in `outputs/m3_tuning/`: `trials_summary.{json,md}` (full ranked
+table), `best_config.yaml` (clean M3-style config with the winning hparams,
+copy-paste ready), `best_metrics.json`, `best_student.pt`, and
+`best_variant_{samples,comparison,mode_counts}.png`. Each trial gets a
+`trial_NN_<name>/` with `config.json` + `metrics.json`; full figures are saved
+only for the best, the baseline, and the best regression / no-regression / TTUR
+trials.
+
+**Results (filled after the GPU run).** _TODO: paste the ranked table from
+`outputs/m3_tuning/trials_summary.md` and fill in:_
+
+- _Best hyperparameters found: TBD._
+- _Does it improve over the original M3 best (`dmd_no_reg`)? TBD._
+- _Did regression help after tuning? TBD._
+- _Did TTUR help after tuning? TBD._
+- _Did the M3 conclusion change? TBD._
+- _Whether `configs/dmd.yaml` was updated (only if the win is clear and small)._
+
 ## Metrics and why they fit a 2D multimodal target
 
 Evaluation is **sample-based**, not loss-based. M0 computes the mode-coverage
