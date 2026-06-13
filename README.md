@@ -13,12 +13,16 @@ is the failure mode distillation is famous for.
 
 ## How to run
 
-From a clean checkout, a single command runs the whole pipeline in order
-(`device: auto` uses CUDA if available, else CPU):
+From a clean checkout, a single command runs the whole pipeline in order. On
+first run, `run.sh` creates a local `.venv` and installs `requirements.txt`
+automatically (`device: auto` uses CUDA if available, else CPU):
 
 ```bash
 bash run.sh        # runs every stage: m0 -> m1 -> m2 -> m3 -> m4 -> m5
 ```
+
+Prerequisites: `python3` with the `venv` module (on Debian/Ubuntu/WSL:
+`sudo apt install python3-venv`) and internet access for the one-time install.
 
 Or run one stage at a time:
 
@@ -31,10 +35,10 @@ Or run one stage at a time:
 ./run.sh m5   # stretch: few-step (4-step) DMD2 + 1-vs-4-step ablation
 ```
 
-`run.sh` with no argument (or `all`) runs every stage sequentially. It uses
-`.venv/bin/python` if present, otherwise `python3`; install deps with
-`pip install -r requirements.txt`. Each stage writes figures and a `metrics.json` /
-`summary_metrics.md` under `outputs/<stage>/`. Stages run in minutes on CPU.
+`run.sh` with no argument (or `all`) runs every stage sequentially, reinstalling
+deps only when `requirements.txt` changes. Each stage writes figures and a
+`metrics.json` / `summary_metrics.md` under `outputs/<stage>/`. Stages run in
+minutes on CPU.
 
 ## Repository structure
 
