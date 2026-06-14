@@ -7,7 +7,7 @@
       "gap": 0.0
     },
     "diffusion": {
-      "num_timesteps": 300,
+      "num_timesteps": 200,
       "beta_start": 0.0001,
       "beta_end": 0.02
     },
